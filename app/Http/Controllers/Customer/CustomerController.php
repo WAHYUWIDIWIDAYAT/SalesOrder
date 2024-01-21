@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Customer;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use App\Models\PurchaseOrder;
+use App\Models\PurchaseOrderDetail;
 
 class CustomerController extends Controller
 {
@@ -18,6 +20,21 @@ class CustomerController extends Controller
             if(request()->q != ''){
                 $customers = Customer::where('name', 'LIKE', '%' . request()->q . '%')->orderBy('created_at', 'DESC')->get();
             }
+
+
+            $customer = DB::table('purchase_order')->select('customer_id')->get();
+            $customer_id = [];
+            foreach ($customer as $c) {
+                $customer_id[] = $c->customer_id;
+            }
+            foreach ($customers as $customer) {
+                if (in_array($customer->id, $customer_id)) {
+                    $customer->delete = false;
+                } else {
+                    $customer->delete = true;
+                }
+            }
+
             return view('customer.index', compact('customers'));
         }
         catch(\Exception $e){

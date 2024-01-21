@@ -11,6 +11,8 @@ use illuminate\Support\Facades\Hash;
 use illuminate\Support\Facades\Storage;
 use illuminate\Support\Str;
 use Illuminate\Database\QueryException;
+use App\Models\PurchaseOrder;
+use App\Models\PurchaseOrderDetail;
 //Class "illuminate\Support\Facades\Validator" not found
 use Validator;
 use File;
@@ -23,17 +25,33 @@ class ProductController extends Controller
     public function index()
     {
         try {
-            //ambil semua data product
+      
             $products = Product::all();
             if (request()->q) {
                 $products = Product::where('name', 'like', '%' . request()->q . '%')->get();
             }
-
-            //kembalikan ke view index dengan compact data products
+            $purchase_order = DB::table('purchase_order_detail')->select('product_id')->get();
+            $product_id = [];
+    
+            foreach ($purchase_order as $po) {
+                $product_id[] = $po->product_id;
+            }
+            foreach ($products as $product) {
+                if (in_array($product->id, $product_id)) {
+                    $product->delete = false;
+                } else {
+                    $product->delete = true;
+                }
+            }
+            
             
             return view('product.index', compact('products'));
+     
         } catch (QueryException $e) {
-            return redirect()->back()->with('error', $e->errorInfo);
+            // return redirect()->back()->with('error', $e->errorInfo);
+            return response()->json([
+                'message' => $e->errorInfo
+            ], 500);
         }
     }
 

@@ -132,12 +132,42 @@ class AccountController extends Controller
     
         return view('account.user', compact('users'));
     }
-
     public function destroy($id)
     {
-        $user = User::where('id', $id)->first();
-        $user->delete();
-        return redirect()->back()->with(['success' => 'User Berhasil Dihapus']);
+        try {
+            // Begin transaction
+            DB::beginTransaction();
+    
+            $user = User::findOrFail($id);
+    
+            // Check if the user is used in task or purchaseorder
+            $task = Task::where('user_id', $id)->first();
+            $purchaseorder = PurchaseOrder::where('user_id', $id)->first();
+    
+            // If user is used in task or purchaseorder
+            if ($task || $purchaseorder) {
+                // Rollback the transaction
+                DB::rollBack();
+    
+                // Return error message
+                return redirect()->back()->with(['error' => 'User Tidak Dapat Dihapus Karena Masih Digunakan']);
+            }
+    
+            // If user is not used in task or purchaseorder
+            $user->delete();
+    
+            // Commit the transaction
+            DB::commit();
+    
+            // Return success message
+            return redirect()->back()->with(['success' => 'User Berhasil Dihapus']);
+        } catch (\Exception $e) {
+            // If an exception occurs, rollback the transaction
+            DB::rollBack();
+    
+            // Return error message
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
     }
     
     public function addUsers()

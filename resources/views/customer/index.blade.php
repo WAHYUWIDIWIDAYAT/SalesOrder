@@ -41,7 +41,7 @@
                                             <!--user data-->
                                             <th>Nama</th>
                                             <th>Detail</th>
-                                           
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>

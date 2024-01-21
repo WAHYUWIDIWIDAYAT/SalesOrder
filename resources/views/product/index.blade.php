@@ -87,11 +87,13 @@
                                                     </a>
                                                     </form>
                                                     &nbsp;
+                                                    @if($product->delete == true)
                                                     <form action="{{ route('product.delete', $product->id) }}" method="post">
                                                         @csrf
                                                         @method('DELETE')
                                                         <a href="{{ route('product.delete', $product->id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Apakah anda yakin ingin menghapus data ini?')">Delete</a>
                                                     </form>
+                                                    @endif
                                                     </div>
                                                     
                                             </td>
