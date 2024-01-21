@@ -55,6 +55,39 @@ class ProductController extends Controller
         }
     }
 
+    public function sales_product()
+    {
+        try {
+      
+            $products = Product::all();
+            if (request()->q) {
+                $products = Product::where('name', 'like', '%' . request()->q . '%')->get();
+            }
+            $purchase_order = DB::table('purchase_order_detail')->select('product_id')->get();
+            $product_id = [];
+    
+            foreach ($purchase_order as $po) {
+                $product_id[] = $po->product_id;
+            }
+            foreach ($products as $product) {
+                if (in_array($product->id, $product_id)) {
+                    $product->delete = false;
+                } else {
+                    $product->delete = true;
+                }
+            }
+            
+            
+            return view('product.sales_product', compact('products'));
+     
+        } catch (QueryException $e) {
+            // return redirect()->back()->with('error', $e->errorInfo);
+            return response()->json([
+                'message' => $e->errorInfo
+            ], 500);
+        }
+    }
+
     public function show($id)
     {
         try {

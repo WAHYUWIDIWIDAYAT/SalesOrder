@@ -113,6 +113,9 @@ Route::prefix('sales')->middleware('is_sales')->group(function(){
     Route::post('/task/proff/{id}', [App\Http\Controllers\Sales\SalesController::class, 'storeProff'])->name('sales.task.proff');
     Route::get('/task/estimation/{id}', [App\Http\Controllers\Task\TaskController::class, 'getEstimation'])->name('sales.task.estimation');
 
+    //sales_product
+    Route::get('/product', [ProductController::class, 'sales_product'])->name('sales.product');
+
 
 });
 
