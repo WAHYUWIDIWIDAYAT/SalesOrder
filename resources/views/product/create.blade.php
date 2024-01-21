@@ -108,6 +108,8 @@
         placeholder="Enter Image"
         required
     />
+    <br>
+    <img id="preview-image" src="" alt="preview image" width="185" height="185">
 </div>
 
     <input type="hidden" name="assign_from" value="{{ Auth::user()->id }}">

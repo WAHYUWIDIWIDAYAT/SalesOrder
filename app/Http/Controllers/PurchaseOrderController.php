@@ -100,7 +100,7 @@ class PurchaseOrderController extends Controller
                 'phone' => $phone,
                 'total' => $request->input('subtotal') - $request->input('discount'),
 
-                // Mungkin ada field lain yang perlu ditambahkan
+                
             ]);
             $purchaseOrder->save();
 
