@@ -40,6 +40,7 @@
                                     <thead>
                                     <tr style="border-bottom: 2px solid #e3e3e3; padding: 10px;">
                                            
+                                            <th>Gambar</th>
                                             <th>Nama Produk</th>
                                             <th>Stok</th>
                                             <th>Harga</th>
@@ -51,6 +52,9 @@
                                                        
                                         <tr style="border-bottom: 2px solid #e3e3e3; padding: 10px;">
                                         @forelse ($products as $product)
+                                            <td>
+                                                <img src="{{ asset('storage/public/images/' . $product->image) }}" width="150px" height="150px" alt="{{ $product->name }}">
+                                            </td>
                                             <td>
                                                 <strong>{{ $product->name }}</strong>
                                                 

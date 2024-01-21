@@ -126,9 +126,9 @@
         <div class="d-flex align-items-end row">
             <div class="col-sm-7">
             <div class="card-body">
-                <h5 class="card-title text-primary">Welcome {{ auth()->user()->name }} 🎉</h5>
+                <h5 class="card-title text-primary">Welcome to PT. Karya Abadi Jaya  🎉</h5>
                 <p class="mb-4">
-                    Hallo, {{ auth()->user()->name }}. Selamat datang kembali di aplikasi <strong>Sales Tracking</strong>. Anda login sebagai Supervisor.
+                    Hallo, {{ auth()->user()->name }}. Selamat datang kembali di aplikasi <strong>Sales Order</strong>. Anda login sebagai Supervisor.
                 </p>
                 <a href="{{ route('task') }}" class="btn btn-primary">Lihat Task</a>
             </div>

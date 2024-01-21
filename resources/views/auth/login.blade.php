@@ -26,8 +26,13 @@
   
 
   <div class="half">
-    <div class="bg order-1 order-md-2">
-    <iframe style="height:100%;width:100%;border:0;" frameborder="0" src="https://www.google.com/maps/embed/v1/place?q=semarang&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8"></iframe>
+    <div class="bg order-1 order-md-2" style="background-color: #F5EEE6;">
+      <div class="hsCont">
+        <div class="img" style="background-image: url('{{ asset('form-login/images/bg_1.jpg') }}');"></div>
+        <div class="img" style="background-image: url('{{ asset('form-login/images/bg_2.jpg') }}');"></div>
+        <div class="img" style="background-image: url('{{ asset('form-login/images/bg_3.jpg') }}');"></div>
+        <div class="img" style="background-image: url('{{ asset('form-login/images/bg_4.jpg') }}');"></div>
+      </div>
     </div>
     <div class="contents order-2 order-md-1">
 
@@ -38,7 +43,8 @@
           <div class="col-md-6">
             <div class="form-block">
               <div class="text-center mb-5">
-              <h3>Login to <strong>Sistem Tracking</strong></h3>
+              <h3><strong>PT. Karya Abadi Jaya</strong></h3>
+        
               <!-- <p class="mb-4">Lorem ipsum dolor sit amet elit. Sapiente sit aut eos consectetur adipisicing.</p> -->
               </div>
               

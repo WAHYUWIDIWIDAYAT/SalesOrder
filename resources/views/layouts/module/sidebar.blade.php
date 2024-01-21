@@ -3,6 +3,8 @@
     <span class="app-brand-logo demo">
       
         <!-- <img src="{{ asset('theme_login/images/ARty.png') }}" alt="Brand Logo" class="img-fluid" style="width: 150px; height: 80px;" /> -->
+        <!--tulisan PT.karya abadi jaya -->
+
         @if(Auth::user()->is_admin == 1)
         <a href="{{route('home')}}"><h3 class="text-grey" style="font-size: 24px;"><i class="menu-icon tf-icons bx bx-user" style="font-size: 24px;"></i>Supervisor</h3></a>
         @else
