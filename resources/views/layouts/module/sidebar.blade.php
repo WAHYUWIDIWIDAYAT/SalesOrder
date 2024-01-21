@@ -149,22 +149,6 @@
     </li>
     
     @else
-    <li class="menu-header small text-uppercase"><span class="menu-header-text">Tugas</span></li>
-    <li class="menu-item">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-cart"></i>
-        <div data-i18n="Form Elements">Tugas</div>
-        </a>
-        <ul class="menu-sub">
-        <li class="menu-item">
-            <a href="{{ route('sales.home') }}" class="menu-link">
-            <div data-i18n="Basic Inputs">List Tugas</div>
-            </a>
-        </li>
-  
-        </ul>
-    </li>
-    @endif
     <li class="menu-header small text-uppercase"><span class="menu-header-text">Customer</span></li>
     <li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -217,6 +201,22 @@
     
         </ul>
       </li>
+    <li class="menu-header small text-uppercase"><span class="menu-header-text">Tugas</span></li>
+    <li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-cart"></i>
+        <div data-i18n="Form Elements">Tugas</div>
+        </a>
+        <ul class="menu-sub">
+        <li class="menu-item">
+            <a href="{{ route('sales.home') }}" class="menu-link">
+            <div data-i18n="Basic Inputs">List Tugas</div>
+            </a>
+        </li>
+  
+        </ul>
+    </li>
+    @endif
     <li class="menu-header small text-uppercase"><span class="menu-header-text">Akun</span></li>
     <!-- Forms -->
     <li class="menu-item">
