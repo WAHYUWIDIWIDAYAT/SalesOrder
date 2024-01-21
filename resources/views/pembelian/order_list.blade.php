@@ -67,9 +67,7 @@
                                             <td>
                                             
                                                     <div class="btn-group">
-                                                    <a href="#" class="btn btn-primary btn-sm">
-                                                        Edit
-                                                    </a>
+                                                
                                                     &nbsp;
                                                     <a href="{{ route('detail_order', $order->id) }}" class="btn btn-primary btn-sm">
                                                         Show

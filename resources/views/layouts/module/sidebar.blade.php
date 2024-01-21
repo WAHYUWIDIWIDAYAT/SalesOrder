@@ -96,6 +96,21 @@
          
         </ul>
       </li>
+      <li class="menu-header small text-uppercase"><span class="menu-header-text">Voucher</span></li>
+      <li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="menu-icon tf-icons bx bx-user"></i>
+          <div data-i18n="Authentications">Voucher</div>
+        </a>
+        <ul class="menu-sub">
+          <li class="menu-item">
+            <a href="{{route('voucher')}}" class="menu-link">
+              <div data-i18n="Basic">Buat Voucher</div>
+            </a>
+          </li>
+    
+        </ul>
+      </li>
       <li class="menu-header small text-uppercase"><span class="menu-header-text">Sales</span></li>
     <!-- Forms -->
     <li class="menu-item">
@@ -132,6 +147,7 @@
         </li>
         </ul>
     </li>
+    
     @else
     <li class="menu-header small text-uppercase"><span class="menu-header-text">Tugas</span></li>
     <li class="menu-item">
@@ -149,6 +165,58 @@
         </ul>
     </li>
     @endif
+    <li class="menu-header small text-uppercase"><span class="menu-header-text">Customer</span></li>
+    <li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-cart"></i>
+        <div data-i18n="Form Elements">Customer</div>
+        </a>
+        <ul class="menu-sub">
+        <li class="menu-item">
+            <a href="{{ route('customer') }}" class="menu-link">
+            <div data-i18n="Basic Inputs">Customer List</div>
+            </a>
+        </li>
+        </ul>
+    </li>
+    <li class="menu-header small text-uppercase"><span class="menu-header-text">Pembelian</span></li>
+      <li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="menu-icon tf-icons bx bx-user"></i>
+          <div data-i18n="Authentications">Pembelian</div>
+        </a>
+        <ul class="menu-sub">
+          <li class="menu-item">
+            <a href="{{route('purchase_order')}}" class="menu-link">  
+              <div data-i18n="Basic">Pembelian Produk</div>
+            </a>
+          </li>
+    
+        </ul>
+        <ul class="menu-sub">
+          <li class="menu-item">
+            <a href="{{route('list_order')}}" class="menu-link">  
+              <div data-i18n="Basic">List Pembelian</div>
+            </a>
+          </li>
+         
+        </ul>
+      </li>
+      <li class="menu-header small text-uppercase"><span class="menu-header-text">Voucher</span></li>
+      <li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="menu-icon tf-icons bx bx-user"></i>
+          <div data-i18n="Authentications">Voucher</div>
+        </a>
+        <ul class="menu-sub">
+          <li class="menu-item">
+            <a href="{{route('voucher')}}" class="menu-link">
+              <div data-i18n="Basic">Buat Voucher</div>
+            </a>
+          </li>
+    
+        </ul>
+      </li>
     <li class="menu-header small text-uppercase"><span class="menu-header-text">Akun</span></li>
     <!-- Forms -->
     <li class="menu-item">

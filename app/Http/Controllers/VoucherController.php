@@ -6,14 +6,15 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Cart;
 use App\Models\Voucher;
-use illuminate\Support\Facades\DB;
-use illuminate\Support\Facades\Validator;
 use illuminate\Support\Facades\Auth;
 use illuminate\Support\Facades\Hash;
 use illuminate\Support\Facades\Storage;
 use illuminate\Support\Str;
 use illuminate\Support\Facades\File;
 use Illuminate\Database\QueryException;
+use DB;
+use Validator;
+
 
 class VoucherController extends Controller
 {
@@ -22,14 +23,14 @@ class VoucherController extends Controller
     {
         try {
             //ambil semua data voucher
-            $vouchers = Voucher::all();
+            $discount = Voucher::all();
             //carikan data voucher berdasarkan nama
             if (request()->search) {
-                $vouchers = Voucher::where('name', 'like', '%' . request()->search . '%')->get();
+                $discount = Voucher::where('name', 'like', '%' . request()->search . '%')->get();
             }
 
             //kembalikan ke view index dengan compact data products
-            return view('voucher.index', compact('vouchers'));
+            return view('voucher.index', compact('discount'));
         } catch (QueryException $e) {
             return redirect()->back()->with('error', $e->errorInfo);
         }
@@ -43,9 +44,10 @@ class VoucherController extends Controller
         try {
             //validasi data yang dikirim
             $validator = Validator::make($request->all(), [
-                'name' => 'required|string|max:255',
+                'code' => 'required|string|max:255',
                 'discount' => 'required|numeric|min:1',
                 'expired_date' => 'required|date',
+                'is_active' => 'required|boolean',
             ]);
 
             //jika validasi gagal kembalikan ke halaman sebelumnya dengan error
@@ -55,9 +57,10 @@ class VoucherController extends Controller
 
             //simpan data voucher ke table voucher
             $voucher = Voucher::create([
-                'name' => $request->name,
+                'code' => $request->code,
                 'discount' => $request->discount,
                 'expired_date' => $request->expired_date,
+                'is_active' => $request->is_active,
             ]);
 
             //jika simpan berhasil commit db transaction
@@ -100,10 +103,14 @@ class VoucherController extends Controller
     public function update(Request $request, $id)
     {
         try {
+
+            //discount remove Rp. and .
+        
             //validasi data yang dikirim
             $validator = Validator::make($request->all(), [
-                'name' => 'required|string|max:255',
-                'discount' => 'required|numeric|min:1',
+                'code' => 'required|string|max:255',
+                'is_active' => 'required|boolean',
+                'discount' => 'required',
                 'expired_date' => 'required|date',
             ]);
 
@@ -112,6 +119,10 @@ class VoucherController extends Controller
                 return redirect()->back()->withErrors($validator->errors());
             }
 
+            //discount remove Rp. and . example Rp. 10.000 -> 10000
+            $discountAsString = str_replace(['Rp. ', '.'], '', $request->discount);
+            
+            
             //mulai db transaction
             DB::beginTransaction();
 
@@ -120,8 +131,9 @@ class VoucherController extends Controller
 
             //update data voucher
             $voucher->update([
-                'name' => $request->name,
-                'discount' => $request->discount,
+                'code' => $request->code,
+                'is_active' => $request->is_active,
+                'discount' => $discountAsString,
                 'expired_date' => $request->expired_date,
             ]);
 
@@ -129,12 +141,15 @@ class VoucherController extends Controller
             DB::commit();
 
             //kembalikan ke halaman sebelumnya dengan pesan sukses
-            return redirect()->back()->with('success', 'Voucher berhasil diupdate');
+            return redirect()->route('voucher')->with('success', 'Voucher berhasil diupdate');
         } catch (QueryException $e) {
             //jika update gagal rollback db transaction
             DB::rollback();
             //kembalikan ke halaman sebelumnya dengan pesan error
-            return redirect()->back()->with('error', $e->errorInfo);
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->errorInfo,
+            ]);
         }
     }
 

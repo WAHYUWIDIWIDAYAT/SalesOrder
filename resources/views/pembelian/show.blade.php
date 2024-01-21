@@ -28,29 +28,29 @@
               <p class="small text-muted mb-0">Sales : <span class="fw-bold">{{ $purchaseOrder->user->name }}</span></p>
             </div>
             <div class="card shadow-0 border mb-4">
-    <div class="card-body">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                
-                    <th scope="col" class="text-center">Product Name</th>
-                    <th scope="col" class="text-center">Description</th>
-                    <th scope="col" class="text-center">Quantity</th>
-                    <th scope="col" class="text-center">Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($purchaseOrder->purchaseOrderDetail as $orderDetail)
-                <tr>
-                    <td class="text-center">{{ $orderDetail->product->name }}</td>
-                    <td class="text-center small">{!! $orderDetail->product->description !!}</td>
-                    <td class="text-center">{{ $orderDetail->quantity }}</td>
-                    <td class="text-center">Rp. {{ number_format($orderDetail->price, 2, ',', '.') }}</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+            <div class="card-body">
+    <table class="table table-hover table-responsive">
+        <thead>
+            <tr>
+                <th scope="col" class="text-center">Product Name</th>
+                <th scope="col" class="text-center d-none d-md-table-cell">Description</th>
+                <th scope="col" class="text-center d-none d-md-table-cell">Quantity</th>
+                <th scope="col" class="text-center">Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($purchaseOrder->purchaseOrderDetail as $orderDetail)
+            <tr>
+                <td class="text-center">{{ $orderDetail->product->name }}</td>
+                <td class="text-center small d-none d-md-table-cell">{!! $orderDetail->product->description !!}</td>
+                <td class="text-center d-none d-md-table-cell">{{ $orderDetail->quantity }}</td>
+                <td class="text-center">Rp. {{ number_format($orderDetail->price, 2, ',', '.') }}</td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+
 </div>
 
             <div>
@@ -63,7 +63,7 @@
         </tr>
         <tr>
             <td class="text-muted">Invoice Number</td>
-            <td class="text-end">{{ $purchaseOrder->id }}</td>
+            <td class="text-end">{{ $purchaseOrder->code }}</td>
         </tr>
         <tr>
             <td class="text-muted">Invoice Date</td>
@@ -103,72 +103,9 @@
     </div>
   </div>
   <div class="d-flex justify-content-end mt-3">
-            <button class="btn btn-dark text-uppercase" onclick="printInvoice()">Print</button>
+
+            <a href="{{ route('invoice', $purchaseOrder->id) }}" class="btn btn-primary btn-md">Print Invoice</a>
     </div>
-
-    <div class="modal fade" id="modalPrint" tabindex="-1" aria-labelledby="modalPrintLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 90%;">
-
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalPrintLabel">Print Invoice</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div> 
-            <div class="modal-body">
-                <div class="invoice-container">
-                    <center><div class="header">PT. Karya Abadi Jaya</div></center>
-                    <br>
-                    <div class="customer-details">
-                        <p>Nama Customer: {{ $purchaseOrder->customer->name }}</p>
-                        <p>Alamat: {{ $purchaseOrder->address }}</p>
-                        <p>Nomor Telepon: {{ $purchaseOrder->phone }}</p>
-                        <p>Email: {{ $purchaseOrder->email }}</p>
-                    </div>
-                </div>
-                <div class="invoice-items-container">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th scope="col">Nama Produk</th>
-                                <th scope="col">Deskripsi</th>
-                                <th scope="col">Jumlah</th>
-                                <th scope="col">Harga</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($purchaseOrder->purchaseOrderDetail as $orderDetail)
-                            <tr>
-                                <td>{{ $orderDetail->product->name }}</td>
-                                <td>{!! $orderDetail->product->description !!}</td>
-                                <td>{{ $orderDetail->quantity }}</td>
-                                <td>Rp. {{ number_format($orderDetail->price, 2, ',', '.') }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <div class="invoice-footer" style="text-align: right;">
-                    <div class="shipping">
-                        Biaya Pengiriman: Gratis
-                    </div>
-                    <div class="discount">
-                        Diskon: Rp. {{ number_format($purchaseOrder->discount, 2, ',', '.') }}
-                    </div>
-                    <div class="subtotal">
-                        Subtotal: Rp. {{ number_format($purchaseOrder->subtotal, 2, ',', '.') }}
-                    </div>
-                    <div class="total">
-                        Total: Rp. {{ number_format($purchaseOrder->total, 2, ',', '.') }}
-                    </div>
-                    <div class="footer">
-                        Invoice Pembelian
-                    </div>
-                </div>
-            </div>
-            </div>
-        </div>
-    </div>
-
 </section>
 
 <script>

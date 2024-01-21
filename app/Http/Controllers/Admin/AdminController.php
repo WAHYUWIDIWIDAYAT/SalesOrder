@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Task;
 use App\Models\Customer;
+use App\Models\PurchaseOrder;
 
 class AdminController extends Controller
 {
@@ -39,7 +40,7 @@ class AdminController extends Controller
             $customers = [];
             $customer = Customer::all();
             foreach ($customer as $c) {
-                $customer_task = Task::where('customer_id', $c->id)->get()->count();
+                $customer_task = PurchaseOrder::where('customer_id', $c->id)->get()->count();
                 $customer_name = $c->name;
                 $customer_percentage = ($customer_task / $tasks) * 100;
                 $customers[] = [

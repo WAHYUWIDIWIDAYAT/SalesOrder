@@ -17,7 +17,7 @@ use PDF;
 
 class PurchaseOrderController extends Controller
 {
-  
+
 
     public function select_product()
 
@@ -123,7 +123,7 @@ class PurchaseOrderController extends Controller
 
             DB::commit();
 
-            return redirect()->route('product')->with('success', 'Checkout berhasil');
+            return redirect()->route('list_order')->with('success', 'Checkout berhasil');
 
         } catch (\Exception $e) {
 
@@ -140,7 +140,13 @@ class PurchaseOrderController extends Controller
     {
         try {
 
-            $purchaseOrders = PurchaseOrder::with('purchaseOrderDetail', 'customer', 'user')->where('user_id', auth()->user()->id)->get();
+            // $purchaseOrders = PurchaseOrder::with('purchaseOrderDetail', 'customer', 'user')->where('user_id', auth()->user()->id)->get();
+            //if admin  
+            if (auth()->user()->is_admin == 1) {
+                $purchaseOrders = PurchaseOrder::with('purchaseOrderDetail', 'customer', 'user')->get();
+            } else {
+                $purchaseOrders = PurchaseOrder::with('purchaseOrderDetail', 'customer', 'user')->where('user_id', auth()->user()->id)->get();
+            }
 
             return view('pembelian.order_list', compact('purchaseOrders'));
         } catch (QueryException $e) {
@@ -159,16 +165,26 @@ class PurchaseOrderController extends Controller
         }
     }
 
-    public function invoice($type)
+    public function invoice($id)
     {
-        $pdf = app('dompdf.wrapper')->loadView('pembelian.invoice');
-        
-            if ($type == 'stream') {
-                return $pdf->stream('invoice.pdf');
-            }
-        
-            if ($type == 'download') {
-                return $pdf->download('invoice.pdf');
-            }
+
+        try{
+            $purchaseOrder = PurchaseOrder::with('purchaseOrderDetail.product', 'customer', 'user')->findOrFail($id);
+
+            $html = view('pembelian.invoice', compact('purchaseOrder'))->render();
+
+            $pdf = PDF::loadHtml($html);
+
+            $pdf->setPaper('a4', 'potrait');
+            //the name of pdf is random
+            $name = 'INV-' . time() . '-' . rand(10000, 99999) . '.pdf';
+
+            return $pdf->download($name);
+            
+
+        }catch(QueryException $e){
+            return redirect()->back()->with('error', $e->errorInfo);
+
+        }
     }
 }
