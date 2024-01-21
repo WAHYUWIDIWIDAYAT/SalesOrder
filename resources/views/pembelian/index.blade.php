@@ -223,8 +223,10 @@
                     $.each(data.data, function(key, value){
                         product += '<tr>';
                         product += '<td>'+value.name+'</td>';
-                        product += '<td> Rp. {{ number_format(value.price) }}</td>';
-         
+
+                        
+                     
+                        product += '<td>'+value.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')+'</td>';
                         product += '<td>';
                         product += '   <input type="number" name="quantity[]" class="form-control quantity-input" placeholder="Enter Quantity" value="1" min="1" style="width: 70px;" required>';
                         product += '</td>';
