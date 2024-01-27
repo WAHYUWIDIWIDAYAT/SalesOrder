@@ -39,7 +39,11 @@ class VoucherController extends Controller
     //method untuk menambahkan voucher ke table voucher menggunakan db transaction
     public function store(Request $request)
     {
-        //mulai db transaction
+
+        if ($request->discount) {
+            $discountAsString = str_replace(['Rp. ', '.'], '', $request->discount);
+        }
+
         DB::beginTransaction();
         try {
             //validasi data yang dikirim
