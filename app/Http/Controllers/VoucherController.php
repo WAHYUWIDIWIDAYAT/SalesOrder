@@ -45,15 +45,13 @@ class VoucherController extends Controller
             //validasi data yang dikirim
             $validator = Validator::make($request->all(), [
                 'code' => 'required|string|max:255',
-                'discount' => 'required',
+                'discount' => 'required|regex:/^Rp\. \d{1,3}(\.\d{3})*$/',
                 'expired_date' => 'required|date',
                 'is_active' => 'required|boolean',
             ]);
 
             //discount Rp. 10.000 -> 10000
-            $discountAsString = str_replace(['Rp. ', '.'], '', $request->discount);
-            //convert string to integer
-            $discountAsInteger = (int) $discountAsString;
+            $discountAsInteger = (int) preg_replace('/[^0-9]/', '', $request->discount);
 
             //jika validasi gagal kembalikan ke halaman sebelumnya dengan error
             if ($validator->fails()) {
