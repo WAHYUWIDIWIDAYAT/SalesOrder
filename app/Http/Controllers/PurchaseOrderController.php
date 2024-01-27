@@ -216,11 +216,17 @@ class PurchaseOrderController extends Controller
     {
         DB::beginTransaction();
         try {
-            $purchaseOrder = PurchaseOrder::findOrFail($id);
-            $purchaseOrder->status = 1;
-            $purchaseOrder->delivery_code = 'DEL-' . time() . '-' . rand(10000, 99999);
-            $purchaseOrder->save();
-
+            if (request()->status == 'accept') {
+                $purchaseOrder = PurchaseOrder::findOrFail($id);
+                $purchaseOrder->status = 1;
+                $purchaseOrder->delivery_code = null;
+                $purchaseOrder->save();
+            } elseif (request()->status == 'delivery') {
+                $purchaseOrder = PurchaseOrder::findOrFail($id);
+                $purchaseOrder->delivery_code = 'SD-' . time() . '-' . rand(10000, 99999);
+                $purchaseOrder->status = 2;
+                $purchaseOrder->save();
+            }
             DB::commit();
 
             return redirect()->back()->with('success', 'Order berhasil diterima');
