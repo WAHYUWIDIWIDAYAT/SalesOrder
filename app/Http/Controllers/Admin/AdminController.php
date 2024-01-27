@@ -28,7 +28,7 @@ class AdminController extends Controller
             $users = User::where('is_admin', 1)->get()->count();
             $all_users = User::all()->count();
             //count tasks
-            $tasks = Task::all()->count();
+            $tasks = PurchaseOrder::all()->count();
             //count confirmed tasks
             $confirmed_tasks = Task::where('task_status', 1)->get()->count();
             //count pending tasks

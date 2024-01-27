@@ -48,42 +48,42 @@
             <div class="mb-3">
             <br>
             <div class="mb-3">
-<div class="mb-3">
-    <label class="form-label" for="basic-default-name">Stock</label>
-    <input
-        type="number"
-        class="form-control"
-        id="stock"
-        name="stock"
-        value="{{ $product->stock }}"
-        placeholder="Enter Stock"
-        required
-        disabled
-    />
-</div>
+        <div class="mb-3">
+            <label class="form-label" for="basic-default-name">Stock</label>
+            <input
+                type="number"
+                class="form-control"
+                id="stock"
+                name="stock"
+                value="{{ $product->stock }}"
+                placeholder="Enter Stock"
+                required
+                disabled
+            />
+        </div>
 
-<div class="mb-3">
-    <label class="form-label" for="basic-default-name">Harga</label>
-    <input
-        type="number"
-        class="form-control"
-        id="price"
-        value="{{ $product->price }}"
-        name="price"
-        placeholder="Enter Price"
-        disabled
-    />
-</div>
+        <div class="mb-3">
+            <label class="form-label" for="basic-default-name">Harga</label>
+            <input
+                type="number"
+                class="form-control"
+                id="price"
+                value="{{ $product->price }}"
+                name="price"
+                placeholder="Enter Price"
+                disabled
+            />
+        </div>
 
-<div class="mb-3">
-    <label class="form-label" for="basic-default-name">Image</label>
-    <br>
-    <center>
-        <img id="preview-image" src="{{ asset('storage/public/images/'.$product->image) }}" alt="preview image" class="img-fluid" width="300" height="300">
-    </center>
-</div>
+        <div class="mb-3">
+            <label class="form-label" for="basic-default-name">Image</label>
+            <br>
+            <center>
+                <img id="preview-image" src="{{ asset('storage/public/images/'.$product->image) }}" alt="preview image" class="img-fluid" width="300" height="300">
+            </center>
+        </div>
 
-    <input type="hidden" name="assign_from" value="{{ Auth::user()->id }}">
+        <input type="hidden" name="assign_from" value="{{ Auth::user()->id }}">
         </div>
         </div>
     </div>
@@ -96,9 +96,6 @@
  
 </div>
 <div class="content-wrapper">
-
-
-
 </div>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-control-geocoder@1.13.0/dist/Control.Geocoder.js"></script>

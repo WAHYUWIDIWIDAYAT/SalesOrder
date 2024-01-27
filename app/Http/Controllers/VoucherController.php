@@ -43,8 +43,7 @@ class VoucherController extends Controller
         $discountAsString = str_replace(['Rp. ', '.'], '', $request->discount);
         $discountAsInteger = (int) $discountAsString;
 
-      
-
+        //mulai db transaction
         DB::beginTransaction();
         try {
             //validasi data yang dikirim
@@ -60,6 +59,7 @@ class VoucherController extends Controller
                 return redirect()->back()->withErrors($validator->errors());
             }
 
+            //simpan data voucher ke database
             $voucher = Voucher::create([
                 'code' => $request->code,
                 'discount' => $discountAsInteger,
