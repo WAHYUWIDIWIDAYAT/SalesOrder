@@ -39,16 +39,19 @@ class VoucherController extends Controller
     //method untuk menambahkan voucher ke table voucher menggunakan db transaction
     public function store(Request $request)
     {
-        $discountAsString = preg_replace('/[^\d]/', '', $request->discount);
+
+        $discountAsString = str_replace(['Rp. ', '.'], '', $request->discount);
         $discountAsInteger = (int) $discountAsString;
+
+      
 
         DB::beginTransaction();
         try {
             //validasi data yang dikirim
             $validator = Validator::make($request->all(), [
                 'code' => 'required|string|max:255',
-                'discount' => 'required|string|regex:/^Rp\. \d+$/',
                 'expired_date' => 'required|date',
+                'discount' => 'required',
                 'is_active' => 'required|boolean',
             ]);
 
@@ -57,10 +60,9 @@ class VoucherController extends Controller
                 return redirect()->back()->withErrors($validator->errors());
             }
 
-            //simpan data voucher ke table voucher
             $voucher = Voucher::create([
                 'code' => $request->code,
-                'discount' => $request->discountAsInteger,
+                'discount' => $discountAsInteger,
                 'expired_date' => $request->expired_date,
                 'is_active' => $request->is_active,
             ]);

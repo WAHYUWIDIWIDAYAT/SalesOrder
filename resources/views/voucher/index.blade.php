@@ -28,8 +28,8 @@
                             
                             <div class="form-group">
                                 <label for="name">Discount</label>
-                                <input type="text" name="discount_value" id="discount" class="form-control" value="{{ old('discount') }}" placeholder="Masukkan Discount">
-                                <input type="hidden" name="discount" id="discount_value" class="form-control" value="{{ old('discount_value') }}" placeholder="Masukkan Discount">
+                                <input type="text" name="discount" id="discount" class="form-control" value="{{ old('discount') }}" placeholder="Rp. 0">
+                                <p class="text-danger">{{ $errors->first('discount') }}</p>
                             </div>
                             
                             <div class="form-group">
@@ -150,9 +150,6 @@
                 var formattedDiscount = numericDiscount.toLocaleString('id-ID'); 
 
                 $(this).val('Rp. ' + formattedDiscount);
-                //return not formatted number
-                $('#discount_value').val(numericDiscount);
-                
             }
         });
 
