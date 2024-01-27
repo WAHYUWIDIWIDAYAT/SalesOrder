@@ -68,7 +68,7 @@
 <body>
 
     <div class="invoice-container">
-        <div class="header">PT. Karya Anak Bangsa</div>
+        <div class="header">PT Karya Abadi Jaya</div>
 
         <div class="customer-details">
             <p>Invoice: {{ $purchaseOrder->code }}</p>
