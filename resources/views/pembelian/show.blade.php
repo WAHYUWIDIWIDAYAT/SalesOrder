@@ -112,7 +112,7 @@
             </form>
             @elseif ($purchaseOrder->status == 1)
             <form action="{{ route('accept_order', $purchaseOrder->id) }}" method="POST">
-                @csrf
+            @csrf
                 <input type="hidden" name="status" value="delivery">
                 <button type="submit" class="btn btn-danger btn-md">Kirim Pesanan</button>
             </form>
