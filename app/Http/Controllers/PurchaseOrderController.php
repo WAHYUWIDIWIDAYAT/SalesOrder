@@ -18,45 +18,32 @@ use PDF;
 class PurchaseOrderController extends Controller
 {
 
-
     public function select_product()
-
     {
         try {
-            // Ambil semua data product
-            $query = Product::query();
-
+            $query = Product::query()->where('stock', '>', 0);
+    
             if (request()->has('q')) {
-                // /case-insensitive lowercase SELECT * FROM countries WHERE LOWER( countries.title ) LIKE '%kosovo%'
                 $query->where('name', 'like', '%' . strtolower(request()->q) . '%');
-
-    
             }
-    
 
-            // Ambil semua produk
             $products = $query->get();
-
+    
             if (!request()->has('q')) {
-                $products = $products->take(4);
+                $limit = 4;
+                $products = $products->take($limit);
             }
-
-            $limit = 4;
-            //limit 4
-            $products = $products->take($limit);
-
-            // Kembalikan ke view index dengan compact data products
             return response()->json([
-         
                 'data' => $products
             ]);
-
+    
         } catch (QueryException $e) {
             return response()->json([
                 'message' => $e->errorInfo
             ], 500);
         }
     }
+    
 
     public function index()
     {
