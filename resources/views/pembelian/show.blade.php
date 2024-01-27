@@ -103,8 +103,16 @@
     </div>
   </div>
   <div class="d-flex justify-content-end mt-3">
+            @if ($purchaseOrder->status == 1)
+            <a href="{{ route('invoice', $purchaseOrder->id) }}" class="btn btn-primary btn-md">Print Sales Order</a>
+            @elseif ($purchaseOrder->status == 0)
+            <a href="{{ route('accept_order', $purchaseOrder->id) }}" class="btn btn-primary btn-md">Accept Order</a>
+            @endif
 
-            <a href="{{ route('invoice', $purchaseOrder->id) }}" class="btn btn-primary btn-md">Print Invoice</a>
+            @if ($purchaseOrder->status == 2)
+            <a href="{{ route('delivery_invoice', $purchaseOrder->id) }}" class="btn btn-primary btn-md">Print Delivery Order</a>
+            @endif
+  
     </div>
 </section>
 

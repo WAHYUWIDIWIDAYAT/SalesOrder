@@ -106,6 +106,14 @@ class PurchaseOrderController extends Controller
                     'total_price' => $quantity * $product->price,
                 ]);
                 $purchaseOrderDetail->save();
+
+                if ($product->stock < $quantity) {
+                    return response()->json([
+                        'message' => 'error',
+                        'error' => 'Stock ' . $product->name . ' tidak mencukupi',
+                    ], 500);
+                }
+
             }
 
             DB::commit();
@@ -164,7 +172,7 @@ class PurchaseOrderController extends Controller
 
             $pdf->setPaper('a4', 'potrait');
             //the name of pdf is random
-            $name = 'INV-' . time() . '-' . rand(10000, 99999) . '.pdf';
+            $name = 'SO-' . time() . '-' . rand(10000, 99999) . '.pdf';
 
             return $pdf->download($name);
             
@@ -172,6 +180,47 @@ class PurchaseOrderController extends Controller
         }catch(QueryException $e){
             return redirect()->back()->with('error', $e->errorInfo);
 
+        }
+    }
+
+    public function delivery_invoice($id)
+    {
+
+        try{
+            $purchaseOrder = PurchaseOrder::with('purchaseOrderDetail.product', 'customer', 'user')->findOrFail($id);
+
+            $html = view('pembelian.delivery_invoice', compact('purchaseOrder'))->render();
+
+            $pdf = PDF::loadHtml($html);
+
+            $pdf->setPaper('a4', 'potrait');
+            //the name of pdf is random
+            $name = 'SD-' . time() . '-' . rand(10000, 99999) . '.pdf';
+
+            return $pdf->download($name);
+            
+
+        }catch(QueryException $e){
+            return redirect()->back()->with('error', $e->errorInfo);
+
+        }
+    }
+
+    public function accept_order($id)
+    {
+        DB::beginTransaction();
+        try {
+            $purchaseOrder = PurchaseOrder::findOrFail($id);
+            $purchaseOrder->status = 1;
+            $purchaseOrder->delivery_code = 'DEL-' . time() . '-' . rand(10000, 99999);
+            $purchaseOrder->save();
+
+            DB::commit();
+
+            return redirect()->back()->with('success', 'Order berhasil diterima');
+        } catch (QueryException $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', $e->errorInfo);
         }
     }
 }

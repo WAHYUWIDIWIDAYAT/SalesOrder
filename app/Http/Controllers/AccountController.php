@@ -9,6 +9,12 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use DB;
+//query exception
+use Illuminate\Database\QueryException;
+use App\Models\Task;
+use App\Models\PurchaseOrder;
+use App\Models\PurchaseOrderDetail;
 
 //tes
 
@@ -225,9 +231,24 @@ class AccountController extends Controller
 
     public function deleteUsers($id)
     {
-        $user = User::where('id', $id)->first();
-        $user->delete();
-        return redirect()->back()->with(['success' => 'Akun Berhasil Dihapus']);
+
+        try{
+            $user = User::findOrFail($id);
+
+            $task = Task::where('user_id', $id)->first();
+            $purchaseorder = PurchaseOrder::where('user_id', $id)->first();
+
+            if($task || $purchaseorder){
+                return redirect()->back()->with(['error' => 'User Tidak Dapat Dihapus Karena Masih Digunakan']);
+            }
+
+
+            $user->delete();
+            return redirect()->back()->with(['success' => 'User Berhasil Dihapus']);
+        }
+        catch(\Exception $e){
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
     }
     public function editUsers($id)
     {

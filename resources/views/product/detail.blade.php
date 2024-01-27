@@ -83,8 +83,6 @@
     </center>
 </div>
 
-
-
     <input type="hidden" name="assign_from" value="{{ Auth::user()->id }}">
         </div>
         </div>
@@ -104,59 +102,6 @@
 </div>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-control-geocoder@1.13.0/dist/Control.Geocoder.js"></script>
-
-    <script>
-        const map = L.map('map').setView([-6.9912, 110.4216], 13);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-        const geocoder = L.Control.Geocoder.nominatim();
-
-        let destinationMarker = null;
-        let destinationCoordinates = null;
-
-        // Function to update the address and display it in the input field
-        function updateAddress(address, addressElementId) {
-            const addressInput = document.getElementById(addressElementId);
-            addressInput.value = address || '';
-        }
-
-        // Function to handle map click and update destination inputs
-        map.on('click', function (e) {
-            // Update destination coordinates input fields
-            document.getElementById('destination-lat').value = e.latlng.lat.toFixed(6);
-            document.getElementById('destination-lng').value = e.latlng.lng.toFixed(6);
-
-            // Get the address for the destination
-            geocoder.reverse(e.latlng, map.options.crs.scale(map.getZoom()), (results) => {
-                const destinationAddress = results[0] ? results[0].name : 'Address not found';
-                updateAddress(destinationAddress, 'destination-address');
-            });
-
-            if (destinationMarker) {
-                // If the destination marker exists, move it to the new location
-                destinationMarker.setLatLng(e.latlng);
-            } else {
-                // Create the destination marker if it doesn't exist
-                destinationCoordinates = e.latlng;
-                destinationMarker = L.marker(destinationCoordinates, { draggable: true }).addTo(map);
-                destinationMarker.bindTooltip('Destination', { permanent: true, className: 'custom-tooltip' }).openTooltip();
-
-                // Listen to the marker's dragend event to update the coordinates
-                destinationMarker.on('dragend', function (e) {
-                    destinationCoordinates = e.target.getLatLng();
-                    document.getElementById('destination-lat').value = destinationCoordinates.lat.toFixed(6);
-                    document.getElementById('destination-lng').value = destinationCoordinates.lng.toFixed(6);
-
-                    // Get the updated address for the destination
-                    geocoder.reverse(destinationCoordinates, map.options.crs.scale(map.getZoom()), (results) => {
-                        const destinationAddress = results[0] ? results[0].name : 'Address not found';
-                        updateAddress(destinationAddress, 'destination-address');
-                    });
-                });
-            }
-        });
-    </script>
 @endsection
 
 @section('js')
@@ -183,59 +128,5 @@
             }
         });
     </script>
-
-    <script>
-    $(document).ready(function () {
-        $('#province_id').on('change', function () {
-            var province_id = $(this).val();
-            if (province_id) {
-                $.ajax({
-                    url: '/api/city', 
-                    type: "GET",
-                    data: {
-                        "province_id": province_id
-                    },
-                    success: function (data) {
-                        $('#city_id').empty();
-                        $.each(data.cities, function (key, value) {
-                            $('#city_id').append('<option value="' + value.id + '">' + value.name + '</option>');
-                        });
-                    },
-                    error: function (error) {
-                        console.log('Error:', error);
-                    }
-                });
-            } else {
-                $('#city_id').empty();
-            }
-        });
-    });
-</script>
-<script>
-        $(document).ready(function () {
-            $('#city_id').on('change', function () {
-                var city_id = $(this).val();
-                if (city_id) {
-                    $.ajax({
-                        url: '/api/district',
-                        type: "GET",
-                        data: {
-                            "city_id": city_id
-                        },
-                        success: function (data) {
-                            $('#district_id').empty();
-                            $.each(data.districts, function (key, value) {
-                                $('#district_id').append('<option value="' + value.id + '">' + value.name + '</option>');
-                            });
-
-                        },
-                    });
-                } else {
-                    $('#district_id').empty();
-                }
-            });
-        });
-    </script>
-<script>
 @endsection
 

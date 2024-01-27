@@ -289,13 +289,26 @@ class ProductController extends Controller
     public function destroy($id)
     {
         try {
-            //ambil data product berdasarkan id
+            // Ambil data product berdasarkan id
             $product = Product::findOrFail($id);
-            //hapus file image yang lama
+        
+            // Periksa apakah product terkait dengan PurchaseOrderDetail
+            $purchaseOrderDetail = PurchaseOrderDetail::where('product_id', $product->id)->first();
+            
+            // Jika product terkait dengan PurchaseOrderDetail
+            if ($purchaseOrderDetail) {
+                // Kembalikan ke halaman sebelumnya dengan pesan error
+                return redirect()->back()->with('error', 'Product Telah Terkait dengan Pembelian');
+            }
+
+        
+            // Hapus file image yang lama
             File::delete(storage_path('app/public/images/' . $product->image));
-            //hapus product
+        
+            // Hapus product
             $product->delete();
-            //kembalikan ke halaman sebelumnya dengan pesan sukses
+        
+            // Kembalikan ke halaman sebelumnya dengan pesan sukses
             return redirect()->back()->with('success', 'Product berhasil dihapus');
         } catch (QueryException $e) {
             return redirect()->back()->with('error', $e->errorInfo);

@@ -21,6 +21,8 @@ class PurchaseOrder extends Model
         'email',
         'total',
         'code',
+        'status',
+        'delivery_code'
     ];
 
     public function user()

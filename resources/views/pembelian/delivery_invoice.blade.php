@@ -71,12 +71,12 @@
         <div class="header">PT Karya Abadi Jaya</div>
 
         <div class="customer-details">
-            <p>Sales Order: {{ $purchaseOrder->code }}</p>
+            <p>Divery Order : {{ $purchaseOrder->delivery_code }}</p>
             <p>Nama Customer: {{ $purchaseOrder->customer->name }}</p>
             <p>Alamat: {{ $purchaseOrder->address }}</p>
             <p>Nomor Telepon: {{ $purchaseOrder->phone }}</p>
             <p>Email: {{ $purchaseOrder->email }}</p>
-            <p>Sales Order Date: {{ $purchaseOrder->created_at->format('d-m-Y') }}</p>
+            <p>Delivery Date: {{ $purchaseOrder->created_at->format('d-m-Y') }}</p>
         </div>
 
         <div class="invoice-details">
@@ -108,7 +108,7 @@
         </div>
 
         <div class="footer">
-            Sales Order
+            Delivery Order
         </div>
     </div>
 

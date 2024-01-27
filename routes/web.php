@@ -51,6 +51,9 @@ Route::post('/profile/delete', [AccountController::class, 'deleteAccount'])->nam
 Route::post('/profile/update/location', [AccountController::class, 'updateLocation'])->name('update.location');
 
 Route::get('/purchase_order', [PurchaseOrderController::class, 'index'])->name('purchase_order');
+
+//delivery_invoice
+Route::get('/delivery_invoice/{id}', [PurchaseOrderController::class, 'delivery_invoice'])->name('delivery_invoice');
 Route::get('/select_product', [PurchaseOrderController::class, 'select_product'])->name('select_product');
 Route::post('/checkout', [PurchaseOrderController::class, 'checkout'])->name('checkout');
 Route::get('/list_purchase_order', [PurchaseOrderController::class, 'list_order'])->name('list_order');
@@ -102,6 +105,9 @@ Route::prefix('supervisor')->middleware('is_admin')->group(function(){
     Route::delete('/voucher/delete/{id}', [VoucherController::class, 'destroy'])->name('voucher.delete');
     Route::get('/voucher/edit/{id}', [VoucherController::class, 'edit'])->name('voucher.edit');
     Route::put('/voucher/update/{id}', [VoucherController::class, 'update'])->name('voucher.update');
+
+    //accept_order
+    Route::get('/accept_order/{id}', [PurchaseOrderController::class, 'accept_order'])->name('accept_order');
 
 }); 
 
