@@ -79,8 +79,8 @@
     <label class="form-label" for="basic-default-name">Image</label>
     <br>
     <center>
-    <img id="preview-image" src="{{ asset('storage/public/images/'.$product->image) }}" alt="preview image" width="300" height="300">
-    <center>
+        <img id="preview-image" src="{{ asset('storage/public/images/'.$product->image) }}" alt="preview image" class="img-fluid" width="300" height="300">
+    </center>
 </div>
 
 
