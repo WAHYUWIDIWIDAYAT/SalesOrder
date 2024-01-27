@@ -116,7 +116,7 @@ class PurchaseOrderController extends Controller
                 if ($product->stock < $quantity) {
                     return redirect()->back()->with('error', 'Stock ' . $product->name . ' tidak mencukupi');
                 }
-
+                
                 $product->stock = $product->stock - $quantity;
                 $product->save();
 
@@ -212,34 +212,21 @@ class PurchaseOrderController extends Controller
         }
     }
 
-   public function accept_order($id, $action)
+    public function accept_order($id)
     {
         DB::beginTransaction();
         try {
             $purchaseOrder = PurchaseOrder::findOrFail($id);
-
-            if ($action == 'submit') {
-                // Set status to 1 for submit action
-                $purchaseOrder->status = 1;
-                $purchaseOrder->delivery_code = null; // Clear delivery code for submit action
-            } elseif ($action == 'delivery') {
-                // Set status to 2 for delivery action
-                $purchaseOrder->status = 2;
-                $purchaseOrder->delivery_code = 'DEL-' . time() . '-' . rand(10000, 99999);
-            } else {
-                // Handle unknown action
-                return redirect()->back()->with('error', 'Unknown action');
-            }
-
+            $purchaseOrder->status = 1;
+            $purchaseOrder->delivery_code = 'DEL-' . time() . '-' . rand(10000, 99999);
             $purchaseOrder->save();
+
             DB::commit();
 
-            $actionText = ($action == 'submit') ? 'Submit' : 'Delivery';
-            return redirect()->back()->with('success', "Order berhasil $actionText");
+            return redirect()->back()->with('success', 'Order berhasil diterima');
         } catch (QueryException $e) {
             DB::rollBack();
             return redirect()->back()->with('error', $e->errorInfo);
         }
     }
-
 }

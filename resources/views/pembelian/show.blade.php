@@ -102,27 +102,24 @@
       </div>
     </div>
   </div>
-  <div class="d-flex justify-content-end mt-3">
-            @if ($purchaseOrder->status == 0)
-            <a href="{{ route('accept_order', $purchaseOrder->id) }}" class="btn btn-primary btn-md">Accept Order</a>
-            @endif
 
-            @if ($purchaseOrder->status == 1)
-            <form action="{{ route('accept_order', ['id' => $purchaseOrder->id, 'action' => 'submit']) }}" method="post">
+    <div class="d-flex justify-content-end mt-3">
+            @if ($purchaseOrder->status == 0)
+            <form action="{{ route('accept_order', $purchaseOrder->id) }}" method="POST">
                 @csrf
-                <button type="submit" class="btn btn-primary">Submit Order</button>
+                <input type="hidden" name="status" value="accept">
+                <button type="submit" class="btn btn-danger btn-md">Terima Pesanan</button>
             </form>
             @elseif ($purchaseOrder->status == 1)
-            <form action="{{ route('accept_order', ['id' => $purchaseOrder->id, 'action' => 'delivery']) }}" method="post">
+            <form action="{{ route('accept_order', $purchaseOrder->id) }}" method="POST">
                 @csrf
-                <button type="submit" class="btn btn-success">Accept Delivery</button>
+                <input type="hidden" name="status" value="delivery">
+                <button type="submit" class="btn btn-danger btn-md">Kirim Pesanan</button>
             </form>
+            <a href="{{ route('invoice', $purchaseOrder->id) }}" class="btn btn-primary btn-md">Cetak Invoice</a>
+            @elseif ($purchaseOrder->status == 2)
+            <a href="{{ route('delivery_invoice', $purchaseOrder->id) }}" class="btn btn-primary btn-md">Cetak Delivery Order</a>
             @endif
-
-            @if ($purchaseOrder->status == 2)
-            <a href="{{ route('delivery_invoice', $purchaseOrder->id) }}" class="btn btn-primary btn-md">Print Delivery Order</a>
-            @endif
-
     </div>
 </section>
 
