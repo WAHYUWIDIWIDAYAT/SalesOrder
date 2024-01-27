@@ -120,7 +120,7 @@
             @csrf
             <input type="hidden" name="status" value="delivery">
             <button type="submit" class="btn btn-danger btn-md mt-0 mt-md-0">Kirim Pesanan</button>
-            <a href="{{ route('delivery_invoice', $purchaseOrder->id) }}" class="btn btn-primary btn-md ms-2 mt-0 mt-md-0 d-inline-block align-top">Cetak Delivery Order</a>
+            <a href="{{ route('invoice', $purchaseOrder->id) }}" class="btn btn-primary btn-md ms-2 mt-0 mt-md-0 d-inline-block align-top">Cetak Sales Order</a>
         </form>
 
     @elseif ($purchaseOrder->status == 2)
