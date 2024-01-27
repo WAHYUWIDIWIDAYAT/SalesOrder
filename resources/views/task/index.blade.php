@@ -69,7 +69,7 @@
                                             </td>
                                            
                                             <td>{{ $task->user->name }}</td>
-                                            <td>p{{ $task->destination_address }}</td>
+                                            <td>{{ $task->destination_address }}</td>
                                             <td>
                                                 @foreach($users as $user)
                                                     @if($user->id == $task->assign_from)
