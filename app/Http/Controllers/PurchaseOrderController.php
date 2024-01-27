@@ -33,6 +33,12 @@ class PurchaseOrderController extends Controller
                 $limit = 4;
                 $products = $products->take($limit);
             }
+         
+            if (request()->has('q') && request()->q == '') {
+                $limit = 4;
+                $products = $products->take($limit);
+            }
+
             return response()->json([
                 'data' => $products
             ]);
@@ -108,11 +114,11 @@ class PurchaseOrderController extends Controller
                 $purchaseOrderDetail->save();
 
                 if ($product->stock < $quantity) {
-                    return response()->json([
-                        'message' => 'error',
-                        'error' => 'Stock ' . $product->name . ' tidak mencukupi',
-                    ], 500);
+                    return redirect()->back()->with('error', 'Stock ' . $product->name . ' tidak mencukupi');
                 }
+                
+                $product->stock = $product->stock - $quantity;
+                $product->save();
 
             }
 
