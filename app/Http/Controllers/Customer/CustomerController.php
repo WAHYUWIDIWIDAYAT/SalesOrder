@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderDetail;
+use DB;
+use Illuminate\Database\QueryException;
+use Validator;
 
 class CustomerController extends Controller
 {
