@@ -94,7 +94,7 @@ class ProductController extends Controller
             //ambil data product berdasarkan id
             $product = Product::findOrFail($id);
             //kembalikan ke view show dengan compact data product
-            return view('show', compact('product'));
+            return view('product.detail', compact('product'));
         } catch (QueryException $e) {
             return redirect()->back()->with('error', $e->errorInfo);
         }

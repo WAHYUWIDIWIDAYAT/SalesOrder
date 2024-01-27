@@ -82,7 +82,7 @@
                                                     </form>
                                                     &nbsp;
                                                     <form action="">
-                                                    <a href="{{ route('product.detail', $product->id) }}" class="btn btn-primary btn-sm">
+                                                    <a href="{{ route('product.show', $product->id) }}" class="btn btn-primary btn-sm">
                                                         Show
                                                     </a>
                                                     </form>

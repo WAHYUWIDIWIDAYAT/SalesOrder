@@ -5,45 +5,18 @@
 @endsection
 
 @section('content')
-<!-- <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-/>
-<script
-    src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-></script>
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-
-<script
-    src="https://unpkg.com/leaflet-control-geocoder@1.13.0/dist/Control.Geocoder.js"
-></script>
-<style>
-    #map {
-        width: 100%;
-        height: 500px;
-    }
-    .coordinates {
-        margin-top: 10px;
-        font-weight: bold;
-    }
-    .address {
-        margin-top: 10px;
-    }
-</style>-->
 <div class="content-wrapper">
 
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Product /</span> Tambah</h4>
-    <form action="{{ route('product.update', $product->id) }}" method="POST" enctype="multipart/form-data">
-    @csrf
-    @method('PUT')
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Product /</span> Detail</h4>
+   
     <div class="row">
         <div class="col-md-6">
         <div class="card mb-4">
-            <h5 class="card-header">Edit Produk</h5>
+            <h5 class="card-header">Detail Produk</h5>
             <div class="card-body demo-vertical-spacing demo-only-element">
                 <div class="mb-3">
-                <label class="form-label" for="basic-default-name">Name Produk</label>
+                <label class="form-label" for="basic-default-name">Nama Produk</label>
                 <input
                     type="text"
                     class="form-control"
@@ -51,18 +24,17 @@
                     name="name"
                     placeholder="Enter Nama Product"
                     value="{{ $product->name }}"
+                    disabled
                 />
                 <p class="text-danger">{{ $errors->first('name') }}</p>
                 </div>
+                <br>
                 <div class="mb-3">
-                <label class="form-label" for="basic-default-description">Description Produk</label>
-                <textarea
-                    class="form-control"
-                    id="description"
-                    name="description"
-                    placeholder="Enter Description Task"
-                    required
-                >{{ $product->description }}</textarea>
+                <div class="card">
+                    <div class="card-body">
+                    {!! $product->description !!}
+                    </div>
+                </div>
                 <p class="text-danger">{{ $errors->first('description') }}</p>
                 </div>
             </div>
@@ -86,6 +58,7 @@
         value="{{ $product->stock }}"
         placeholder="Enter Stock"
         required
+        disabled
     />
 </div>
 
@@ -98,22 +71,16 @@
         value="{{ $product->price }}"
         name="price"
         placeholder="Enter Price"
-        required
+        disabled
     />
 </div>
 
 <div class="mb-3">
     <label class="form-label" for="basic-default-name">Image</label>
-    <input
-        type="file"
-        class="form-control"
-        id="file-input"
-        name="image"
-        placeholder="Enter Image"
-        required
-    />
     <br>
-    <img id="preview-image" src="{{ asset('storage/public/images/'.$product->image) }}" alt="preview image" width="185" height="185">
+    <center>
+    <img id="preview-image" src="{{ asset('storage/public/images/'.$product->image) }}" alt="preview image" width="300" height="300">
+    <center>
 </div>
 
 
@@ -126,22 +93,9 @@
     <div class="row">
         <div class="col-md-6">
         </div>
-        <div class="mb-3">
-            <div class="card mb-4">
-                <h5 class="card-header">Action Button</h5>
-                <br>
-                <div class="card-body demo-vertical-spacing demo-only-element">
-                <center>
-                <button type="submit" class="btn btn-primary">Tambah</button>
-                <button type="reset" class="btn btn-warning">Reset</button>
-                <button type="button" class="btn btn-danger" onclick="window.history.back()">Kembali</button>
-                </center>
-                </div>
-            </div>
-        </div>
     </div>
     <br><br>
-    </form>
+ 
 </div>
 <div class="content-wrapper">
 
@@ -229,9 +183,7 @@
             }
         });
     </script>
-    <script>
-        CKEDITOR.replace('description');
-    </script>
+
     <script>
     $(document).ready(function () {
         $('#province_id').on('change', function () {
