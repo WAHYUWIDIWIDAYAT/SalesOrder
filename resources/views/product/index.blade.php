@@ -90,7 +90,8 @@
                                                     <form action="{{ route('product.delete', $product->id) }}" method="post">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <a href="{{ route('product.delete', $product->id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Apakah anda yakin ingin menghapus data ini?')">Delete</a>
+                                                        <!-- <a href="{{ route('product.delete', $product->id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Apakah anda yakin ingin menghapus data ini?')">Delete</a> -->
+                                                        <button class="btn btn-danger btn-sm" onclick="return confirm('Apakah anda yakin ingin menghapus data ini?')">Delete</button>
                                                     </form>
                                                     </div>
                                                     
