@@ -40,10 +40,6 @@ class VoucherController extends Controller
     public function store(Request $request)
     {
 
-        if ($request->discount) {
-            $discountAsString = str_replace(['Rp. ', '.'], '', $request->discount);
-        }
-
         DB::beginTransaction();
         try {
             //validasi data yang dikirim
@@ -54,6 +50,9 @@ class VoucherController extends Controller
                 'is_active' => 'required|boolean',
             ]);
 
+            if ($request->discount) {
+                $discountAsString = str_replace(['Rp. ', '.'], '', $request->discount);
+            }
             //jika validasi gagal kembalikan ke halaman sebelumnya dengan error
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator->errors());
@@ -62,7 +61,7 @@ class VoucherController extends Controller
             //simpan data voucher ke table voucher
             $voucher = Voucher::create([
                 'code' => $request->code,
-                'discount' => $request->discount,
+                'discount' => $request->discountAsString,
                 'expired_date' => $request->expired_date,
                 'is_active' => $request->is_active,
             ]);
