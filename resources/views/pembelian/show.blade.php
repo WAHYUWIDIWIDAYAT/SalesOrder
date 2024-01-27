@@ -103,16 +103,26 @@
     </div>
   </div>
   <div class="d-flex justify-content-end mt-3">
-            @if ($purchaseOrder->status == 1)
-            <a href="{{ route('invoice', $purchaseOrder->id) }}" class="btn btn-primary btn-md">Print Sales Order</a>
-            @elseif ($purchaseOrder->status == 0)
+            @if ($purchaseOrder->status == 0)
             <a href="{{ route('accept_order', $purchaseOrder->id) }}" class="btn btn-primary btn-md">Accept Order</a>
+            @endif
+
+            @if ($purchaseOrder->status == 1)
+            <form action="{{ route('accept_order', ['id' => $purchaseOrder->id, 'action' => 'submit']) }}" method="post">
+                @csrf
+                <button type="submit" class="btn btn-primary">Submit Order</button>
+            </form>
+            @elseif ($purchaseOrder->status == 1)
+            <form action="{{ route('accept_order', ['id' => $purchaseOrder->id, 'action' => 'delivery']) }}" method="post">
+                @csrf
+                <button type="submit" class="btn btn-success">Accept Delivery</button>
+            </form>
             @endif
 
             @if ($purchaseOrder->status == 2)
             <a href="{{ route('delivery_invoice', $purchaseOrder->id) }}" class="btn btn-primary btn-md">Print Delivery Order</a>
             @endif
-  
+
     </div>
 </section>
 
