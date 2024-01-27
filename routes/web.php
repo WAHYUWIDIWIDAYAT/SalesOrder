@@ -107,7 +107,7 @@ Route::prefix('supervisor')->middleware('is_admin')->group(function(){
     Route::put('/voucher/update/{id}', [VoucherController::class, 'update'])->name('voucher.update');
 
     //accept_order
-    Route::get('/accept_order/{id}', [PurchaseOrderController::class, 'accept_order'])->name('accept_order');
+    Route::post('/accept_order/{id}', [PurchaseOrderController::class, 'accept_order'])->name('accept_order');
 
 }); 
 
