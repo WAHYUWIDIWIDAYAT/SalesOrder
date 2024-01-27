@@ -50,9 +50,11 @@ class VoucherController extends Controller
                 'is_active' => 'required|boolean',
             ]);
 
-            if ($request->discount) {
-                $discountAsString = str_replace(['Rp. ', '.'], '', $request->discount);
-            }
+            //discount Rp. 10.000 -> 10000
+            $discountAsString = str_replace(['Rp. ', '.'], '', $request->discount);
+            //convert string to integer
+            $discountAsInteger = (int) $discountAsString;
+
             //jika validasi gagal kembalikan ke halaman sebelumnya dengan error
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator->errors());
@@ -61,7 +63,7 @@ class VoucherController extends Controller
             //simpan data voucher ke table voucher
             $voucher = Voucher::create([
                 'code' => $request->code,
-                'discount' => $request->discountAsString,
+                'discount' => $request->discountAsInteger,
                 'expired_date' => $request->expired_date,
                 'is_active' => $request->is_active,
             ]);
