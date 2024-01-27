@@ -137,7 +137,7 @@
                                 id="voucher"
                                 name="voucher"
                                 placeholder="Enter Voucher"
-                                required
+                        
                             />
                             <button type="button" class="btn btn-primary ms-2" id="applyBtn">Apply</button>
                         </div>
