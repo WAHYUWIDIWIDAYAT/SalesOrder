@@ -25,7 +25,7 @@ class CustomerController extends Controller
             }
 
 
-            $customer = DB::table('purchase_order')->select('customer_id')->get();
+            $customer = DB::table('purchase_orders')->select('customer_id')->get();
             $customer_id = [];
             foreach ($customer as $c) {
                 $customer_id[] = $c->customer_id;
