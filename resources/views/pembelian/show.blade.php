@@ -29,7 +29,8 @@
             </div>
             <div class="card shadow-0 border mb-4">
             <div class="card-body">
-    <table class="table table-hover table-responsive">
+            <div class="table-responsive">
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th scope="col" class="text-center">Product Name</th>
@@ -50,51 +51,54 @@
         </tbody>
     </table>
 </div>
+</div>
 
 </div>
 
             <div>
             <div class="card shadow-0 border mb-4">
-            <table class="table table-hover">
-            <thead>
-    
-        <tr>
-            <td class="fw-bold">Order Details</td>
-        </tr>
-        <tr>
-            <td class="text-muted">Invoice Number</td>
-            <td class="text-end">{{ $purchaseOrder->code }}</td>
-        </tr>
-        <tr>
-            <td class="text-muted">Invoice Date</td>
-            <td class="text-end">{{ $purchaseOrder->created_at->format('d-m-Y') }}</td>
-        </tr>
-        <tr>
-            <td class="text-muted">Alamat</td>
-            <td class="text-end">{{ $purchaseOrder->address }}</td>
-        </tr>
-        <tr>
-            <td class="text-muted">Email</td>
-            <td class="text-end">{{ $purchaseOrder->email }}</td>
-        </tr>
-        <tr>
-            <td class="text-muted">Diskon Pembayaran</td>
-            <td class="text-end">Rp. {{ number_format($purchaseOrder->discount, 2, ',', '.') }}</td>
-        </tr>
-        <tr>
-            <td class="text-muted">Biaya Pengiriman</td>
-            <td class="text-end">Gratis</td>
-        </tr>
-        <tr>
-            <td class="text-muted">Subtotal</td>
-            <td class="text-end">Rp. {{ number_format($purchaseOrder->subtotal, 2, ',', '.') }}</td>
-        </tr>
-        <tr>
-            <td class="fw-bold">Total</td>
-            <td class="text-end fw-bold">Rp. {{ number_format($purchaseOrder->total, 2, ',', '.') }}</td>
-        </tr>
-    </thead>
-</table>
+            <div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <td class="fw-bold">Order Details</td>
+            </tr>
+            <tr>
+                <td class="text-muted">Invoice Number</td>
+                <td class="text-end">{{ $purchaseOrder->code }}</td>
+            </tr>
+            <tr>
+                <td class="text-muted">Invoice Date</td>
+                <td class="text-end">{{ $purchaseOrder->created_at->format('d-m-Y') }}</td>
+            </tr>
+            <tr>
+                <td class="text-muted">Alamat</td>
+                <td class="text-end">{{ $purchaseOrder->address }}</td>
+            </tr>
+            <tr>
+                <td class="text-muted">Email</td>
+                <td class="text-end">{{ $purchaseOrder->email }}</td>
+            </tr>
+            <tr>
+                <td class="text-muted">Diskon Pembayaran</td>
+                <td class="text-end">Rp. {{ number_format($purchaseOrder->discount, 2, ',', '.') }}</td>
+            </tr>
+            <tr>
+                <td class="text-muted">Biaya Pengiriman</td>
+                <td class="text-end">Gratis</td>
+            </tr>
+            <tr>
+                <td class="text-muted">Subtotal</td>
+                <td class="text-end">Rp. {{ number_format($purchaseOrder->subtotal, 2, ',', '.') }}</td>
+            </tr>
+            <tr>
+                <td class="fw-bold">Total</td>
+                <td class="text-end fw-bold">Rp. {{ number_format($purchaseOrder->total, 2, ',', '.') }}</td>
+            </tr>
+        </thead>
+    </table>
+</div>
+
 
 </div>
 
@@ -103,24 +107,27 @@
     </div>
   </div>
 
-    <div class="d-flex justify-content-end mt-3">
-            @if ($purchaseOrder->status == 0)
-            <form action="{{ route('accept_order', $purchaseOrder->id) }}" method="POST">
-                @csrf
-                <input type="hidden" name="status" value="accept">
-                <button type="submit" class="btn btn-danger btn-md">Terima Pesanan</button>
-            </form>
-            @elseif ($purchaseOrder->status == 1)
-            <form action="{{ route('accept_order', $purchaseOrder->id) }}" method="POST">
+  <div class="d-flex justify-content-end mt-3">
+    @if ($purchaseOrder->status == 0)
+        <form action="{{ route('accept_order', $purchaseOrder->id) }}" method="POST">
             @csrf
-                <input type="hidden" name="status" value="delivery">
-                <button type="submit" class="btn btn-danger btn-md">Kirim Pesanan</button>
-            </form>
-            <a href="{{ route('invoice', $purchaseOrder->id) }}" class="btn btn-primary btn-md">Cetak Invoice</a>
-            @elseif ($purchaseOrder->status == 2)
-            <a href="{{ route('delivery_invoice', $purchaseOrder->id) }}" class="btn btn-primary btn-md">Cetak Delivery Order</a>
-            @endif
-    </div>
+            <input type="hidden" name="status" value="accept">
+            <button type="submit" class="btn btn-danger btn-md">Terima Pesanan</button>
+        </form>
+    @elseif ($purchaseOrder->status == 1)
+      
+        <form action="{{ route('accept_order', $purchaseOrder->id) }}" method="POST" class="d-inline-block">
+            @csrf
+            <input type="hidden" name="status" value="delivery">
+            <button type="submit" class="btn btn-danger btn-md mt-0 mt-md-0">Kirim Pesanan</button>
+            <a href="{{ route('delivery_invoice', $purchaseOrder->id) }}" class="btn btn-primary btn-md ms-2 mt-0 mt-md-0 d-inline-block align-top">Cetak Delivery Order</a>
+        </form>
+
+    @elseif ($purchaseOrder->status == 2)
+        <a href="{{ route('delivery_invoice', $purchaseOrder->id) }}" class="btn btn-primary btn-md">Cetak Delivery Order</a>
+    @endif
+</div>
+
 </section>
 
 <script>
