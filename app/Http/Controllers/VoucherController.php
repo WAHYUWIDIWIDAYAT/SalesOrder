@@ -45,7 +45,7 @@ class VoucherController extends Controller
             //validasi data yang dikirim
             $validator = Validator::make($request->all(), [
                 'code' => 'required|string|max:255',
-                'discount' => 'required|numeric|min:1',
+                'discount' => 'required',
                 'expired_date' => 'required|date',
                 'is_active' => 'required|boolean',
             ]);
