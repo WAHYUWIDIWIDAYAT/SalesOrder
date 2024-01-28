@@ -68,6 +68,20 @@ class PurchaseOrderController extends Controller
     {
         try {
             // Mendapatkan data dari request
+
+            $validator = Validator::make($request->all(), [
+                'data_product' => 'required',
+                'customer_id' => 'required|numeric',
+                'address' => 'required|string',
+                'email' => 'required|email',
+                'phone' => 'required|string',
+            ]);
+        
+            if ($validator->fails()) {
+                //error redirect back with session error
+                return redirect()->back()->with('error', $validator->errors()->first());
+            }
+
             $dataProduct = $request->input('data_product');
             $customerID = $request->input('customer_id');
             

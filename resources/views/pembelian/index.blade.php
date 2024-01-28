@@ -51,7 +51,7 @@
                                     id="notes"
                                     name="notes"
                                     placeholder="Enter Note"
-                                    required
+                                 
                                 ></textarea>
                                 <p class="text-danger">{{ $errors->first('notes') }}</p>
                                 </div>
