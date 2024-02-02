@@ -110,7 +110,6 @@
         id="file-input"
         name="image"
         placeholder="Enter Image"
-        required
     />
     <br>
     <img id="preview-image" src="{{ asset('storage/public/images/'.$product->image) }}" alt="preview image" width="185" height="185">
