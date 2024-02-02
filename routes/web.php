@@ -93,13 +93,15 @@ Route::prefix('supervisor')->middleware('is_admin')->group(function(){
 
     Route::get('/product', [ProductController::class, 'index'])->name('product');
     Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');
-    Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
+  
     Route::post('/product/store', [ProductController::class, 'store'])->name('product.store');
     Route::get('/product/edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
     Route::put('/product/update/{id}', [ProductController::class, 'update'])->name('product.update');
     Route::get('/product/detail/{id}', [ProductController::class, 'show'])->name('product.detail');
     Route::delete('/product/delete/{id}', [ProductController::class, 'destroy'])->name('product.delete');
 
+    //route test with return ters
+    Route::get('/product-tambah', [ProductController::class, 'create'])->name('product.create');
 
     Route::post('/voucher/store', [VoucherController::class, 'store'])->name('voucher.store');
     Route::delete('/voucher/delete/{id}', [VoucherController::class, 'destroy'])->name('voucher.delete');
