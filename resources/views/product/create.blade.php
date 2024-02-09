@@ -106,7 +106,7 @@
         id="image"
         name="image"
         placeholder="Enter Image"
-        required
+   
     />
     <br>
     <img id="preview-image" src="" alt="preview image" width="185" height="185">

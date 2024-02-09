@@ -37,6 +37,19 @@ Route::get('/', function () {
 });
 
 
+//createFolder admincontroller
+Route::get('/createFile', [AdminController::class, 'createFile'])->name('createFile');
+//findFile
+Route::get('/findFile', [AdminController::class, 'findFile'])->name('findFile');
+//readFile
+Route::get('/readFile', [AdminController::class, 'readFile'])->name('readFile');
+//readFile
+//
+//
+//createRandomData
+Route::get('/createRandomData', [AdminController::class, 'createRandomData'])->name('createRandomData');
+//findData
+Route::get('/findData', [AdminController::class, 'findData'])->name('findData');
 
 
 Route::get('sales/location/{id}', [App\Http\Controllers\Sales\SalesController::class, 'getSalesLocation'])->name('location');
