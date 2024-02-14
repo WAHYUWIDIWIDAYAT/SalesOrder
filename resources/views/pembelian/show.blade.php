@@ -113,18 +113,24 @@
   </div>
 
   <div class="d-flex justify-content-end mt-3">
+    <!--if auth user is admin-->
     @if ($purchaseOrder->status == 0)
+    <!--check is is_admin 1 or 0-->
+    @if (auth()->user()->is_admin == 1)
         <form action="{{ route('accept_order', $purchaseOrder->id) }}" method="POST">
             @csrf
             <input type="hidden" name="status" value="accept">
             <button type="submit" class="btn btn-danger btn-md">Terima Pesanan</button>
         </form>
+    @endif
     @elseif ($purchaseOrder->status == 1)
       
         <form action="{{ route('accept_order', $purchaseOrder->id) }}" method="POST" class="d-inline-block">
             @csrf
+            @if (auth()->user()->is_admin == 1)
             <input type="hidden" name="status" value="delivery">
             <button type="submit" class="btn btn-danger btn-md mt-0 mt-md-0">Kirim Pesanan</button>
+            @endif
             <a href="{{ route('invoice', $purchaseOrder->id) }}" class="btn btn-primary btn-md ms-2 mt-0 mt-md-0 d-inline-block align-top">Cetak Sales Order</a>
         </form>
 

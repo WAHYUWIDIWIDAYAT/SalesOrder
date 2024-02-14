@@ -79,6 +79,7 @@ Route::post('/customer/store', [CustomerController::class, 'store'])->name('cust
 Route::get('/customer/edit/{id}', [CustomerController::class, 'edit'])->name('customer.edit');
 Route::put('/customer/update/{id}', [CustomerController::class, 'update'])->name('customer.update');
 Route::get('/voucher', [VoucherController::class, 'index'])->name('voucher');
+Route::post('/accept_order/{id}', [PurchaseOrderController::class, 'accept_order'])->name('accept_order');
 
 Route::prefix('supervisor')->middleware('is_admin')->group(function(){
     Route::get('/home', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('home');
@@ -122,7 +123,7 @@ Route::prefix('supervisor')->middleware('is_admin')->group(function(){
     Route::put('/voucher/update/{id}', [VoucherController::class, 'update'])->name('voucher.update');
 
     //accept_order
-    Route::post('/accept_order/{id}', [PurchaseOrderController::class, 'accept_order'])->name('accept_order');
+   
     //sales_invoice
     Route::get('/sales_invoice/{id}', [PurchaseOrderController::class, 'sales_invoice'])->name('sales_invoice');
     //list_order_paid
