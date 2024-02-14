@@ -97,6 +97,20 @@
           </li>
          
         </ul>
+        <ul class="menu-sub">
+          <li class="menu-item">
+            <a href="{{route('list_order_paid')}}" class="menu-link">  
+              <div data-i18n="Basic">List Pembelian Lunas</div>
+            </a>
+          </li>
+        </ul>
+        <ul class="menu-sub">
+          <li class="menu-item">
+            <a href="{{route('list_order_delivery')}}" class="menu-link">  
+              <div data-i18n="Basic">List Pembelian Proses Delivery</div>
+            </a>
+          </li>
+        </ul>
       </li>
       <li class="menu-header small text-uppercase"><span class="menu-header-text">Voucher</span></li>
       <li class="menu-item">

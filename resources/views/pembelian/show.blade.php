@@ -95,6 +95,11 @@
                 <td class="fw-bold">Total</td>
                 <td class="text-end fw-bold">Rp. {{ number_format($purchaseOrder->total, 2, ',', '.') }}</td>
             </tr>
+
+            <tr>
+                <td class="text-muted">Status</td>
+                <td class="text-end"><span class="badge bg-{{ $purchaseOrder->paid == 1 ? 'success' : 'danger' }}">{{ $purchaseOrder->paid == 1 ? 'Lunas' : 'Belum Lunas' }}</span></td>
+            </tr>
         </thead>
     </table>
 </div>
@@ -123,8 +128,18 @@
             <a href="{{ route('invoice', $purchaseOrder->id) }}" class="btn btn-primary btn-md ms-2 mt-0 mt-md-0 d-inline-block align-top">Cetak Sales Order</a>
         </form>
 
-    @elseif ($purchaseOrder->status == 2)
+    @elseif ($purchaseOrder->status == 2 && $purchaseOrder->paid == 0)
+      
+        <form action="{{ route('accept_order', $purchaseOrder->id) }}" method="POST" class="d-inline-block">
+            @csrf
+            <input type="hidden" name="status" value="paid">
+            <button type="submit" class="btn btn-danger btn-md mt-0 mt-md-0">Pembayaran Lunas</button>
+            <a href="{{ route('delivery_invoice', $purchaseOrder->id) }}" class="btn btn-primary btn-md">Cetak Delivery Order</a>
+        </form>
+    @elseif ($purchaseOrder->status == 2 && $purchaseOrder->paid == 1)
+        <a href="{{ route('sales_invoice', $purchaseOrder->id) }}" class="btn btn-primary btn-md">Cetak Invoice</a>&nbsp;&nbsp;
         <a href="{{ route('delivery_invoice', $purchaseOrder->id) }}" class="btn btn-primary btn-md">Cetak Delivery Order</a>
+
     @endif
 </div>
 

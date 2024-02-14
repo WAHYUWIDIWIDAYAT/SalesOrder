@@ -22,7 +22,8 @@ class PurchaseOrder extends Model
         'total',
         'code',
         'status',
-        'delivery_code'
+        'delivery_code',
+        'paid'
     ];
 
     public function user()

@@ -123,6 +123,12 @@ Route::prefix('supervisor')->middleware('is_admin')->group(function(){
 
     //accept_order
     Route::post('/accept_order/{id}', [PurchaseOrderController::class, 'accept_order'])->name('accept_order');
+    //sales_invoice
+    Route::get('/sales_invoice/{id}', [PurchaseOrderController::class, 'sales_invoice'])->name('sales_invoice');
+    //list_order_paid
+    Route::get('/list_order_paid', [PurchaseOrderController::class, 'list_order_paid'])->name('list_order_paid');
+    //list_order_delivery
+    Route::get('/list_order_delivery', [PurchaseOrderController::class, 'list_order_delivery'])->name('list_order_delivery');
 
 }); 
 

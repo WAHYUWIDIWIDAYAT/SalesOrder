@@ -155,8 +155,7 @@ class PurchaseOrderController extends Controller
     {
         try {
 
-            // $purchaseOrders = PurchaseOrder::with('purchaseOrderDetail', 'customer', 'user')->where('user_id', auth()->user()->id)->get();
-            //if admin  
+
             if (auth()->user()->is_admin == 1) {
                 $purchaseOrders = PurchaseOrder::with('purchaseOrderDetail', 'customer', 'user')->get();
             } else {
@@ -168,6 +167,40 @@ class PurchaseOrderController extends Controller
             return redirect()->back()->with('error', $e->errorInfo);
         }
     }
+
+    public function list_order_paid()
+    {
+        try {
+
+            if (auth()->user()->is_admin == 1) {
+                $purchaseOrders = PurchaseOrder::with('purchaseOrderDetail', 'customer', 'user')->where('paid', 1)->get();
+            } else {
+                $purchaseOrders = PurchaseOrder::with('purchaseOrderDetail', 'customer', 'user')->where('user_id', auth()->user()->id)->where('paid', 1)->get();
+            }
+
+            return view('pembelian.paid', compact('purchaseOrders'));
+        } catch (QueryException $e) {
+            return redirect()->back()->with('error', $e->errorInfo);
+        }
+    }
+
+    public function list_order_delivery()
+    {
+        try {
+
+            if (auth()->user()->is_admin == 1) {
+                // $purchaseOrders = PurchaseOrder::with('purchaseOrderDetail', 'customer', 'user')->where('status', 2)->get(); where paid 0
+                $purchaseOrders = PurchaseOrder::with('purchaseOrderDetail', 'customer', 'user')->where('status', 2)->where('paid', 0)->get();
+            } else {
+                $purchaseOrders = PurchaseOrder::with('purchaseOrderDetail', 'customer', 'user')->where('user_id', auth()->user()->id)->where('status', 2)->get();
+            }
+
+            return view('pembelian.delivery', compact('purchaseOrders'));
+        } catch (QueryException $e) {
+            return redirect()->back()->with('error', $e->errorInfo);
+        }
+    }
+
 
     public function detail_order($id)
     {
@@ -209,6 +242,12 @@ class PurchaseOrderController extends Controller
         try{
             $purchaseOrder = PurchaseOrder::with('purchaseOrderDetail.product', 'customer', 'user')->findOrFail($id);
 
+
+            $purchaseOrder->purchaseOrderDetail = $purchaseOrder->purchaseOrderDetail->filter(function($item){
+                return $item->product->stock > 0;
+            }); 
+            $purchaseOrder->total = $purchaseOrder->purchaseOrderDetail->sum('total_price') - $purchaseOrder->discount;
+
             $html = view('pembelian.delivery_invoice', compact('purchaseOrder'))->render();
 
             $pdf = PDF::loadHtml($html);
@@ -216,6 +255,29 @@ class PurchaseOrderController extends Controller
             $pdf->setPaper('a4', 'potrait');
             //the name of pdf is random
             $name = 'SD-' . time() . '-' . rand(10000, 99999) . '.pdf';
+
+            return $pdf->download($name);
+            
+
+        }catch(QueryException $e){
+            return redirect()->back()->with('error', $e->errorInfo);
+
+        }
+    }
+
+    public function sales_invoice($id)
+    {
+
+        try{
+            $purchaseOrder = PurchaseOrder::with('purchaseOrderDetail.product', 'customer', 'user')->findOrFail($id);
+
+            $html = view('pembelian.sales_invoice', compact('purchaseOrder'))->render();
+
+            $pdf = PDF::loadHtml($html);
+
+            $pdf->setPaper('a4', 'potrait');
+            //the name of pdf is random
+            $name = 'Invoice-' . time() . '-' . rand(10000, 99999) . '.pdf';
 
             return $pdf->download($name);
             
@@ -241,6 +303,12 @@ class PurchaseOrderController extends Controller
                 $purchaseOrder->status = 2;
                 $purchaseOrder->save();
             }
+            elseif (request()->status == 'paid') {
+                $purchaseOrder = PurchaseOrder::findOrFail($id);
+                $purchaseOrder->paid = 1;
+                $purchaseOrder->save();
+            }
+
             DB::commit();
 
             return redirect()->back()->with('success', 'Order berhasil diterima');
